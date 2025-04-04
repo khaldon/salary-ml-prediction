@@ -2,21 +2,14 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
-from fastapi.responses import JSONResponse
-
-
-import joblib
-import numpy as np
+from model import SalaryModel
 
 app = FastAPI()
 
 templates = Jinja2Templates(directory="templates")
 
 
-model = joblib.load("../salary_model.pkl")
-category_mappings = joblib.load("../category_mappings.pkl")
-# one_hot_columns = joblib.load("../one_hot_encoded.pkl")
-# label_encoder = joblib.load("../label_encoder.pkl")
+model = SalaryModel()
 
 
 class SalaryRequest(BaseModel):
@@ -42,15 +35,12 @@ async def predict_salary(data: SalaryRequest):
             "Job Title": data.job_title,
             "Years of Experience": data.years_of_experience,
         }
-        import pandas as pd
-
-        input_df = pd.DataFrame([features])
-
         # Make prediction
-        prediction = model.predict(input_df)
+        prediction = model.predict(features)
+        rounded = round(prediction)
+        return f"predicted salary: ${rounded:,}"
 
         # Return the prediction
-        return {"predicted_salary": float(prediction[0])}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
 

@@ -57,7 +57,7 @@
                 axios.post("http://127.0.0.1:8000/predict_salary", data)
                 .then(response => {
                     document.getElementById("response").innerText = 
-                       "Predicted salary is "+JSON.stringify(response.data["predicted_salary"]);
+                       response.data
                 })
                 .catch(error => {
                     JSON.stringify(response.data);
