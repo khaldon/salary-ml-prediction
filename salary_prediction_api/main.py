@@ -43,24 +43,3 @@ async def predict_salary(data: SalaryRequest):
         # Return the prediction
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
-
-
-# @app.post("/predict_salary")
-# async def predict_salary(request: SalaryRequest):
-#     try:
-#         input_data = np.array(
-#             [
-#                 [
-#                     request.years_of_experience,
-#                     request.age,
-#                     request.education_level,
-#                     request.job_title,
-#                     request.gender,
-#                 ]
-#             ]
-#         )  # Adjust based on your features
-#         prediction = model.predict(input_data)
-
-#         return {"predicted_salary": prediction[0]}
-#     except Exception as e:
-#         raise HTTPException(status_code=400, detail=str(e))
