@@ -54,7 +54,7 @@
                         gender: gender
                     };
         
-                axios.post("http://127.0.0.1:8000/predict_salary", data)
+                axios.post(" http://127.0.0.1:8000/predict_salary", data)
                 .then(response => {
                     document.getElementById("response").innerText = 
                        response.data
